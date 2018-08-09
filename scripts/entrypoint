@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [ -z ${TEX_FILE+x} ]; then 
+	echo "You need to define a tex file for compilation using the TEX_FILE environment variable.";
+	exit 1
+fi
+
+FULL_TEX_FILE="/mnt/input/$TEX_FILE"
+if [ ! -f "$FULL_TEX_FILE" ]
+then
+	echo "$0: File '${FULL_TEX_FILE}' not found."
+	exit 1
+fi
+
+echo "Starting compilation of $FULL_TEX_FILE."
+cd /mnt/input
+pdflatex $TEX_FILE
+cd -
