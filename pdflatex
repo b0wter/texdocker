@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 
-# Prüfen ob eine Datei als Parameter übergeben wurde.
+# Check if a filename was given as parameter to this script.
 if [ -z ${1+x} ]; then 
         echo "$0: You need to supply a tex file as argument for this script.";
         exit 1
 fi
 
+# Check if the file actually exists.
 if [ ! -f "$1" ]
 then
     echo "$0: File '${1}' not found."
+    exit 1
 fi
 
 full_name=$(realpath $1)
 dir=$(dirname $full_name)
 filename=$(basename $1)
 
-docker run --rm -e TEX_FILE=$filename -v $dir:/mnt/input -it b0wter/texdocker
+docker run --rm -e TEX_FILE=$filename -v $dir:/mnt/input:z -it b0wter/texdocker
